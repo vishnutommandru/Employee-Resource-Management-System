@@ -299,3 +299,301 @@ class Empdepartment:
         empid.place(x=20, y=60)
         eid_entry = Entry(rootd)
         eid_entry.place(x=200, y=65)
+     def valid():
+            import mysql.connector
+            import tkinter.messagebox as msg
+            mydb = mysql.connector.connect(host='localhost', user='root', password='root', port=3306,
+                                           database='Empdepartment')
+            mycursor = mydb.cursor()
+            ide = eid_entry.get()
+            ide = int(ide)
+
+            mycursor.execute("DELETE from Employees where  employee_id = %s ", (ide,))
+            if mycursor:
+                msg.Message("record deleted successfuly")
+            mydb.commit()
+            msg.showinfo(title="response", message="employee records deleted successfully")
+
+        delb = Button(rootd, text="Delete details of an employee ", bg="red", font=("Bold", '15'), command=valid)
+        delb.place(x=200, y=225)
+
+        rootd.mainloop()
+        mydb.commit()
+
+    def hardwork(self):
+        import mysql.connector
+
+        from tkinter import ttk
+        import tkinter.messagebox as msg
+        root5 = Tk()
+
+        import mysql.connector
+        mydb = mysql.connector.connect(host='localhost', user='root', password='root', port=3306,
+                                       database='Empdepartment')
+
+        mycursor = mydb.cursor()
+
+        # Using treeview widget
+        trv = ttk.Treeview(root5)
+        trv.grid(row=1, column=1, padx=20, pady=20)
+        # number of columns
+        trv["columns"] = ("1", "2", "3", "4")
+
+        # Defining heading
+        trv['show'] = 'headings'
+
+        # width of columns and alignment
+        trv.column("1", width=100, anchor='c')
+        trv.column("2", width=120, anchor='c')
+        trv.column("3", width=120, anchor='c')
+        trv.column("4", width=150, anchor='c')
+
+        # Headings
+        # respective columns
+        trv.heading("1", text="manager_id")
+        trv.heading("2", text="manager first name")
+        trv.heading("3", text="manager last name")
+        trv.heading("4", text="manager email address")
+
+        # getting data from MySQL student table
+        mycursor.execute('    select e1.employee_id as manager_id ,e1.first_name as manager_firstname,e1.last_name as manager_last_name \
+                          ,e1.email_address as manager_email from Employees e1 where e1.employee_id in ( \
+                          select d.manager_id  from Departments  d where d.manager_id in ( \
+                         select   e.employee_id   from Employees e where e.employee_id  in \
+                        (select ep2.employee_id from Employee_projects ep2 where ep2.hours_worked > 90 ) ) )')
+
+        r_set = mycursor.fetchall()
+        for dt in r_set:
+            trv.insert("", 'end', iid=dt[0], text=dt[0], values=(dt[0], dt[1], dt[2], dt[3]))
+
+        mydb.commit()
+        root5.mainloop()
+
+    def workhours(self):
+        import mysql.connector
+
+        from tkinter import ttk
+        import tkinter.messagebox as msg
+        root5 = Tk()
+
+        import mysql.connector
+        mydb = mysql.connector.connect(host='localhost', user='root', password='root', port=3306,
+                                       database='Empdepartment')
+
+        mycursor = mydb.cursor()
+
+        # Using treeview widget
+        trv = ttk.Treeview(root5)
+        trv.grid(row=1, column=1, padx=20, pady=20)
+        # number of columns
+        trv["columns"] = ("1", "2", "3", "4", "5", "6")
+
+        # Defining heading
+        trv['show'] = 'headings'
+
+        # width of columns and alignment
+        trv.column("1", width=100, anchor='c')
+        trv.column("2", width=120, anchor='c')
+        trv.column("3", width=120, anchor='c')
+        trv.column("4", width=150, anchor='c')
+        trv.column("5", width=150, anchor='c')
+        trv.column("6", width=150, anchor='c')
+
+        # Headings
+        # respective columns
+        trv.heading("1", text="employee_id")
+        trv.heading("2", text="employee first name")
+        trv.heading("3", text="employee last name")
+        trv.heading("4", text="employee email address")
+        trv.heading("5", text="hours worked")
+        trv.heading("6", text="employee role")
+
+        # getting data from MySQL student table
+        mycursor.execute('    select e1.employee_id,first_name,last_name,email_address ,hours_worked,role\
+                         from Employees e1  inner join Employee_projects ep1     on e1.employee_id = ep1.employee_id  ')
+
+        r_set = mycursor.fetchall()
+        for dt in r_set:
+            trv.insert("", 'end', iid=dt[0], text=dt[0], values=(dt[0], dt[1], dt[2], dt[3], dt[4], dt[5]))
+
+        mydb.commit()
+        root5.mainloop()
+
+    def femp(self):
+        import mysql.connector
+
+        from tkinter import ttk
+        import tkinter.messagebox as msg
+        root5 = Tk()
+
+        import mysql.connector
+        mydb = mysql.connector.connect(host='localhost', user='root', password='root', port=3306,
+                                       database='Empdepartment')
+
+        mycursor = mydb.cursor()
+
+        # Using treeview widget
+        trv = ttk.Treeview(root5)
+        trv.grid(row=1, column=1, padx=20, pady=20)
+        # number of columns
+        trv["columns"] = ("1", "2", "3", "4")
+
+        # Defining heading
+        trv['show'] = 'headings'
+
+        # width of columns and alignment
+        trv.column("1", width=100, anchor='c')
+        trv.column("2", width=120, anchor='c')
+        trv.column("3", width=120, anchor='c')
+        trv.column("4", width=150, anchor='c')
+
+        # Headings
+        # respective columns
+        trv.heading("1", text="employee_id")
+        trv.heading("2", text="first_name")
+        trv.heading("3", text="last_name")
+        trv.heading("4", text="email_address")
+
+        # getting data from MySQL student table
+        mycursor.execute('select * from Employees')
+        r_set = mycursor.fetchall()
+        for dt in r_set:
+            trv.insert("", 'end', iid=dt[0], text=dt[0], values=(dt[0], dt[1], dt[2], dt[3]))
+
+        mydb.commit()
+        root5.mainloop()
+
+    def fdepts(self):
+        import mysql.connector
+
+        from tkinter import ttk
+        import tkinter.messagebox as msg
+        root5 = Tk()
+
+        import mysql.connector
+        mydb = mysql.connector.connect(host='localhost', user='root', password='root', port=3306,
+                                       database='Empdepartment')
+
+        mycursor = mydb.cursor()
+
+        # Using treeview widget
+        trv = ttk.Treeview(root5)
+        trv.grid(row=1, column=1, padx=20, pady=20)
+        # number of columns
+        trv["columns"] = ("1", "2", "3", "4")
+
+        # Defining heading
+        trv['show'] = 'headings'
+
+        # width of columns and alignment
+        trv.column("1", width=100, anchor='c')
+        trv.column("2", width=120, anchor='c')
+        trv.column("3", width=120, anchor='c')
+        trv.column("4", width=150, anchor='c')
+
+        # Headings
+        # respective columns
+        trv.heading("1", text="department_id")
+        trv.heading("2", text="department_name")
+        trv.heading("3", text="manager_id")
+        trv.heading("4", text="location")
+
+        # getting data from MySQL student table
+        mycursor.execute('select * from Departments')
+        r_set = mycursor.fetchall()
+        for dt in r_set:
+            trv.insert("", 'end', iid=dt[0], text=dt[0], values=(dt[0], dt[1], dt[2], dt[3]))
+
+        mydb.commit()
+        root5.mainloop()
+
+    def fpro(self):
+        import mysql.connector
+
+        from tkinter import ttk
+        import tkinter.messagebox as msg
+        root5 = Tk()
+
+        import mysql.connector
+        mydb = mysql.connector.connect(host='localhost', user='root', password='root', port=3306,
+                                       database='Empdepartment')
+
+        mycursor = mydb.cursor()
+
+        # Using treeview widget
+        trv = ttk.Treeview(root5)
+        trv.grid(row=1, column=1, padx=20, pady=20)
+        # number of columns
+        trv["columns"] = ("1", "2", "3", "4")
+
+        # Defining heading
+        trv['show'] = 'headings'
+
+        # width of columns and alignment
+        trv.column("1", width=100, anchor='c')
+        trv.column("2", width=120, anchor='c')
+        trv.column("3", width=120, anchor='c')
+        trv.column("4", width=150, anchor='c')
+
+        # Headings
+        # respective columns
+        trv.heading("1", text="project_id")
+        trv.heading("2", text="project_name")
+        trv.heading("3", text="start_date")
+        trv.heading("4", text="end_date")
+
+        # getting data from MySQL student table
+        mycursor.execute('select * from Projects')
+        r_set = mycursor.fetchall()
+        for dt in r_set:
+            trv.insert("", 'end', iid=dt[0], text=dt[0], values=(dt[0], dt[1], dt[2], dt[3]))
+
+        mydb.commit()
+        root5.mainloop()
+
+    def femppro(self):
+        import mysql.connector
+
+        from tkinter import ttk
+        import tkinter.messagebox as msg
+        root5 = Tk()
+
+        import mysql.connector
+        mydb = mysql.connector.connect(host='localhost', user='root', password='root', port=3306,
+                                       database='Empdepartment')
+
+        mycursor = mydb.cursor()
+
+        # Using treeview widget
+        trv = ttk.Treeview(root5)
+        trv.grid(row=1, column=1, padx=20, pady=20)
+        # number of columns
+        trv["columns"] = ("1", "2", "3", "4")
+
+        # Defining heading
+        trv['show'] = 'headings'
+
+        # width of columns and alignment
+        trv.column("1", width=100, anchor='c')
+        trv.column("2", width=120, anchor='c')
+        trv.column("3", width=120, anchor='c')
+        trv.column("4", width=150, anchor='c')
+
+        # Headings
+        # respective columns
+        trv.heading("1", text="employee_id")
+        trv.heading("2", text="project_id")
+        trv.heading("3", text="hours_worked")
+        trv.heading("4", text="role")
+
+        # getting data from MySQL student table
+        mycursor.execute('select * from Employee_Projects')
+        r_set = mycursor.fetchall()
+        for dt in r_set:
+            trv.insert("", 'end', iid=dt[0], text=dt[0], values=(dt[0], dt[1], dt[2], dt[3]))
+
+        mydb.commit()
+        root5.mainloop()
+
+
+emp = Empdepartment(Tk)
