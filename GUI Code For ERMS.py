@@ -110,3 +110,192 @@ class Empdepartment:
         location_id.place(x=20, y=600)
         self.loc_entry = Entry(self.root)
         self.loc_entry.place(x=170, y=605)
+
+        mycursor.execute(
+            "INSERT INTO Employees (employee_id, first_name, last_name, email_address) VALUES (%s,%s,%s,%s)",
+            (eid, efna, elna, elna))
+        mydb.commit()
+        mydb = mysql.connector.connect(host='localhost', user='root', password='root', port=3306,
+                                       database='Empdepartment')
+        mycursor = mydb.cursor()
+        mycursor.execute(
+            " INSERT INTO Departments (department_id, department_name, manager_id, location) VALUES (%s,%s,%s,%s)",
+            (depid, depna, mgrid, loc))
+        mydb.commit()
+        mydb = mysql.connector.connect(host='localhost', user='root', password='root', port=3306,
+                                       database='Empdepartment')
+        mycursor = mydb.cursor()
+        mycursor.execute(" INSERT INTO Projects (project_id, project_name, start_date, end_date) VALUES (%s,%s,%s,%s)",
+                         (pid, pname, star, endt))
+        mydb.commit()
+        mydb = mysql.connector.connect(host='localhost', user='root', password='root', port=3306,
+                                       database='Empdepartment')
+        mycursor = mydb.cursor()
+        mycursor.execute(
+            " INSERT INTO Employee_Projects (employee_id, project_id, hours_worked, role) VALUES (%s,%s,%s,%s)",
+            (eid, pid, hrs, erole))
+        msg.showinfo("One record inserted successfully")
+        msg.showinfo(title="response", message="update details successful")
+
+        mydb.commit()
+
+      def update(self):
+        import mysql.connector
+        mydb = mysql.connector.connect(host='localhost', user='root', password='root', port=3306,
+                                       database='Empdepartment')
+        mycursor = mydb.cursor()
+
+        rootu = Tk()
+        rootu.geometry('500x500')
+        rootu.config(bg='magenta')
+        rootu.title('update operation')
+        lb1 = Label(rootu, text="UPDATE Employee details", bg='yellow', font=("Bold", '18'))
+        lb1.place(x=50, y=10)
+
+        empid = Label(rootu, text="employee id", bg='magenta', font=("Bold", '18'))
+        empid.place(x=20, y=60)
+        eid_entry = Entry(rootu)
+        eid_entry.place(x=200, y=65)
+
+        fname_label = Label(rootu, text=" new first name ", bg='magenta', font=("Bold", '18'))
+        fname_label.place(x=20, y=100)
+        fname_entry = Entry(rootu)
+        fname_entry.place(x=200, y=105)
+
+        lname_label = Label(rootu, text="new last name", bg='magenta', font=("Bold", '18'))
+        lname_label.place(x=20, y=140)
+        lname_entry = Entry(rootu)
+        lname_entry.place(x=200, y=145)
+
+        gmail_label = Label(rootu, text="new gmail address", bg='magenta', font=("Bold", '18'))
+        gmail_label.place(x=20, y=180)
+        gm_entry = Entry(rootu)
+        gm_entry.place(x=200, y=185)
+
+      def validate():
+            import mysql.connector
+            import tkinter.messagebox as msg
+            mydb = mysql.connector.connect(host='localhost', user='root', password='root', port=3306,
+                                           database='Empdepartment')
+            mycursor = mydb.cursor()
+            idd = eid_entry.get()
+            idd = int(idd)
+            fn = fname_entry.get()
+            ln = lname_entry.get()
+            gm = gm_entry.get()
+
+            mycursor.execute(
+                "UPDATE Employees set first_name = %s, last_name = %s  , email_address = %s where employee_id = %s ",
+                (fn, ln, gm, idd))
+            if mycursor:
+                msg.Message("update details successful")
+            mydb.commit()
+            msg.showinfo(title="response", message="update details successful")
+
+        upb = Button(rootu, text="change employe details", bg="red", font=("Bold", '15'), command=validate)
+        upb.place(x=200, y=225)
+
+        rootu.mainloop()
+        mydb.commit()
+
+      def retrieve(self):
+        import mysql.connector
+        mydb = mysql.connector.connect(host='localhost', user='root', password='root', port=3306,
+                                       database='Empdepartment')
+        mycursor = mydb.cursor()
+        mydb.commit()
+
+        rootr = Tk()
+        rootr.geometry('500x500')
+        rootr.config(bg='magenta')
+        rootr.title('Retrieve details prjects and timing ')
+        lb1 = Label(rootr, text="Retreve all details of project duration and time", bg='yellow', font=("Bold", '16'))
+        lb1.place(x=10, y=10)
+
+        proid = Label(rootr, text="project id", bg='magenta', font=("Bold", '18'))
+        proid.place(x=20, y=60)
+        pid_entry = Entry(rootr)
+        pid_entry.place(x=200, y=65)
+
+      def validated():
+            import mysql.connector
+            import tkinter.messagebox as msg
+            mydb = mysql.connector.connect(host='localhost', user='root', password='root', port=3306,
+                                           database='Empdepartment')
+            mycursor = mydb.cursor()
+            idd = pid_entry.get()
+            idd = int(idd)
+
+            import mysql.connector
+
+            from tkinter import ttk
+            import tkinter.messagebox as msg
+            root5 = Tk()
+
+            import mysql.connector
+            mydb = mysql.connector.connect(host='localhost', user='root', password='root', port=3306,
+                                           database='Empdepartment')
+
+            mycursor = mydb.cursor()
+
+            # Using treeview widget
+            trv = ttk.Treeview(root5)
+            trv.grid(row=1, column=1, padx=20, pady=20)
+            # number of columns
+            trv["columns"] = ("1", "2", "3", "4", "5", "6")
+
+            # Defining heading
+            trv['show'] = 'headings'
+
+            # width of columns and alignment
+            trv.column("1", width=100, anchor='c')
+            trv.column("2", width=120, anchor='c')
+            trv.column("3", width=120, anchor='c')
+            trv.column("4", width=150, anchor='c')
+            trv.column("5", width=150, anchor='c')
+            trv.column("6", width=150, anchor='c')
+
+            # Headings
+            # respective columns
+            trv.heading("1", text="project_id")
+            trv.heading("2", text="project_name")
+            trv.heading("3", text="start_date")
+            trv.heading("4", text="end_date")
+            trv.heading("5", text="hours_worked")
+            trv.heading("6", text="role")
+
+            # getting data from MySQL student table
+            mycursor.execute("select  pj.project_id, pj.project_name, pj.start_date,pj.end_date , ep.hours_worked,ep.role \
+                                 from  Employee_Projects  as  ep inner join  Projects  as pj \
+                                    on ep.project_id = pj.project_id \
+                                        where pj.project_id= %s ", (idd,))
+            r_set = mycursor.fetchall()
+            for dt in r_set:
+                trv.insert("", 'end', iid=dt[0], text=dt[0], values=(dt[0], dt[1], dt[2], dt[3], dt[4], dt[5]))
+
+            mydb.commit()
+            root5.mainloop()
+
+        retb = Button(rootr, text="retrieve project details", bg="red", font=("Bold", '15'), command=validated)
+        retb.place(x=200, y=225)
+
+        rootr.mainloop()
+        mydb.commit()
+
+     def delete(self):
+        import mysql.connector
+        mydb = mysql.connector.connect(host='localhost', user='root', password='root', port=3306,
+                                       database='Empdepartment')
+        mycursor = mydb.cursor()
+        mydb.commit()
+        rootd = Tk()
+        rootd.geometry('500x500')
+        rootd.config(bg='magenta')
+        rootd.title('DELETE operation')
+        lb1 = Label(rootd, text=" DELETE Employee Records", bg='yellow', font=("Bold", '18'))
+        lb1.place(x=50, y=10)
+
+        empid = Label(rootd, text="employee id", bg='magenta', font=("Bold", '18'))
+        empid.place(x=20, y=60)
+        eid_entry = Entry(rootd)
+        eid_entry.place(x=200, y=65)
