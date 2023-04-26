@@ -22,4 +22,4 @@
  
 
 ## Project Demo Video Link : 
-   https://screenrec.com/share/rOF37eRCx6
+   https://youtu.be/86piFxHZPVg
