@@ -188,7 +188,7 @@ class Empdepartment:
 
         mycursor.execute(
             "INSERT INTO Employees (employee_id, first_name, last_name, email_address) VALUES (%s,%s,%s,%s)",
-            (eid, efna, elna, elna))
+            (eid, efna, elna, egmail))
         mydb.commit()
         mydb = mysql.connector.connect(host='localhost', user='root', password='root', port=3306,
                                        database='Empdepartment')
