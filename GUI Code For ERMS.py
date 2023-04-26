@@ -111,6 +111,81 @@ class Empdepartment:
         self.loc_entry = Entry(self.root)
         self.loc_entry.place(x=170, y=605)
 
+        insert_buton = Button(self.root, text="INSERT", bg="red", font=("bold italic", '12'), height=2, width=7,
+                              command=self.insert)
+        insert_buton.place(x=480, y=90)
+
+        update_button = Button(self.root, text="UPDATE", bg="red", font=("bold italic", '12'), height=2, width=10,
+                               command=self.update)
+        update_button.place(x=480, y=180)
+
+        retrieve_button = Button(self.root, text="RETRIEVE", bg="red", font=("bold italic", '12'), height=2, width=10,
+                                 command=self.retrieve)
+        retrieve_button.place(x=475, y=270)
+
+        delete_button = Button(self.root, text="DELETE", bg="red", font=("bold italic", '12'), height=2, width=10,
+                               command=self.delete)
+        delete_button.place(x=480, y=360)
+
+        fetch_empolyees = Button(self.root, text="EMPLOYEES", bg="red", font=("bold italic", '12'), height=2, width=13,
+                                 command=self.femp)
+        fetch_empolyees.place(x=800, y=90)
+
+        fetch_departments = Button(self.root, text="DEPARTMENTS", bg="red", font=("bold italic", '12'), height=2,
+                                   width=14, command=self.fdepts)
+        fetch_departments.place(x=800, y=180)
+
+        fetch_projects = Button(self.root, text="PROJECTS", bg="red", font=("bold italic", '12'), height=2, width=14,
+                                command=self.fpro)
+        fetch_projects.place(x=790, y=270)
+
+        fetch_emp_pro = Button(self.root, text="EMPLOYEE_PROJECT", bg="red", font=("bold italic", '12'), height=2,
+                               width=20, command=self.femppro)
+        fetch_emp_pro.place(x=770, y=360)
+
+        hard_emp_m = Button(self.root, text="HARD Work managers ", bg="#00F9F5", font=("bold italic", '12'), height=2,
+                            width=20, command=self.hardwork)
+        hard_emp_m.place(x=420, y=620)
+
+        sub_q = Label(self.root, text='display managers who work more than 90 hours', bg='#1EB5F1',
+                      font=("Cambria", '16'))
+        sub_q.place(x=420, y=580)
+
+        join_q = Label(self.root, text='Employees with working hours', bg='#1EB5F1', font=("Cambria", '16'))
+        join_q.place(x=420, y=480)
+
+        work_hrs = Button(self.root, text="Employees & hours ", bg="#00F9F5", font=("bold italic", '12'), height=2,
+                          width=20, command=self.workhours)
+        work_hrs.place(x=420, y=520)
+
+        self.root, mainloop()
+
+    def insert(self):
+        import mysql.connector
+        import tkinter.messagebox as msg
+        mydb = mysql.connector.connect(host='localhost', user='root', password='root', port=3306,
+                                       database='Empdepartment')
+
+        eid = int(self.empid_entry.get())
+        efna = str(self.fname_entry.get())
+        elna = str(self.lname_entry.get())
+        egmail = str(self.email_entry.get())
+
+        depid = int(self.deptid_entry.get())
+        depna = str(self.deptname_entry.get())
+        mgrid = int(self.mgr_entry.get())
+        loc = str(self.loc_entry.get())
+
+        pid = int(self.proid_entry.get())
+        pname = str(self.proname_entry.get())
+        star = str(self.start_entry.get())
+        endt = str(self.end_entry.get())
+
+        hrs = int(self.hrs_entry.get())
+        erole = str(self.role_entry.get())
+        print(eid)
+        mycursor = mydb.cursor()
+
         mycursor.execute(
             "INSERT INTO Employees (employee_id, first_name, last_name, email_address) VALUES (%s,%s,%s,%s)",
             (eid, efna, elna, elna))
@@ -139,7 +214,7 @@ class Empdepartment:
 
         mydb.commit()
 
-      def update(self):
+    def update(self):
         import mysql.connector
         mydb = mysql.connector.connect(host='localhost', user='root', password='root', port=3306,
                                        database='Empdepartment')
@@ -149,7 +224,7 @@ class Empdepartment:
         rootu.geometry('500x500')
         rootu.config(bg='magenta')
         rootu.title('update operation')
-        lb1 = Label(rootu, text="UPDATE Employee details", bg='yellow', font=("Bold", '18'))
+        lb1 = Label(rootu, text="UPDADE Employee details", bg='yellow', font=("Bold", '18'))
         lb1.place(x=50, y=10)
 
         empid = Label(rootu, text="employee id", bg='magenta', font=("Bold", '18'))
@@ -172,7 +247,7 @@ class Empdepartment:
         gm_entry = Entry(rootu)
         gm_entry.place(x=200, y=185)
 
-      def validate():
+        def validate():
             import mysql.connector
             import tkinter.messagebox as msg
             mydb = mysql.connector.connect(host='localhost', user='root', password='root', port=3306,
@@ -198,7 +273,7 @@ class Empdepartment:
         rootu.mainloop()
         mydb.commit()
 
-      def retrieve(self):
+    def retrieve(self):
         import mysql.connector
         mydb = mysql.connector.connect(host='localhost', user='root', password='root', port=3306,
                                        database='Empdepartment')
@@ -217,7 +292,7 @@ class Empdepartment:
         pid_entry = Entry(rootr)
         pid_entry.place(x=200, y=65)
 
-      def validated():
+        def validated():
             import mysql.connector
             import tkinter.messagebox as msg
             mydb = mysql.connector.connect(host='localhost', user='root', password='root', port=3306,
@@ -282,7 +357,7 @@ class Empdepartment:
         rootr.mainloop()
         mydb.commit()
 
-     def delete(self):
+    def delete(self):
         import mysql.connector
         mydb = mysql.connector.connect(host='localhost', user='root', password='root', port=3306,
                                        database='Empdepartment')
@@ -299,7 +374,8 @@ class Empdepartment:
         empid.place(x=20, y=60)
         eid_entry = Entry(rootd)
         eid_entry.place(x=200, y=65)
-     def valid():
+
+        def valid():
             import mysql.connector
             import tkinter.messagebox as msg
             mydb = mysql.connector.connect(host='localhost', user='root', password='root', port=3306,
